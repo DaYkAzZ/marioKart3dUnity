@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float accelerationSpeed = 10f;
-    [SerializeField] private float maxSpeed = 15f;
-    [SerializeField] private float turnSpeed = 100f;
+    [SerializeField] private float accelerationSpeed = 8f;
+    [SerializeField] private float maxSpeed = 14f;
+    [SerializeField] private float turnSpeed = 60f;
     [SerializeField] private float drag = 2f;
     [SerializeField] private float brakingForce = 5f;
 

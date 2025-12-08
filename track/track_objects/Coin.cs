@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform player;
+    public float CoinCount = 0;
+    void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (other.CompareTag("Player"))
+        {
+            CoinCount += 1;
+            Destroy(gameObject);
+        }
     }
 }

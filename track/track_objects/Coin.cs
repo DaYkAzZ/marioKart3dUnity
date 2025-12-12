@@ -3,14 +3,13 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public Transform player;
-    public float CoinCount = 0;
-    public float rotationSpeed = 50f;
+    [SerializeField] private float rotationSpeed = 50f;
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            CoinCount += 1;
             Destroy(gameObject);
+            GameManager.Instance.AddCoin();
         }
     }
     void Update()

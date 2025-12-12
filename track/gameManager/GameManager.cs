@@ -257,9 +257,6 @@ public class GameManager : MonoBehaviour
     {
         coinCount++;
         UpdateCoinGUI();
-
-        if (showDebugLogs)
-            Debug.Log($"💰 Coin récupéré ! Total: {coinCount}");
     }
 
     void UpdateCoinGUI()

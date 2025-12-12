@@ -6,7 +6,7 @@ public class WaypointData
 {
     public Vector3 position;
     public float optimalSpeed;
-    public float lateralOffset; // Décalage latéral pour trouver la meilleure ligne
+    public float lateralOffset;
 
     public WaypointData(Vector3 pos, float speed, float offset)
     {
@@ -29,6 +29,7 @@ public class GhostController : MonoBehaviour
     [SerializeField] private int totalTrainingLaps = 10;
     [SerializeField] private float explorationRate = 0.3f;
     [SerializeField] private float learningRate = 0.1f;
+    [SerializeField] private bool waitForRaceStart = true; // Attendre le signal de départ
 
     [Header("Movement Settings")]
     [SerializeField] private float baseSpeed = 15f;
@@ -53,6 +54,7 @@ public class GhostController : MonoBehaviour
     private int currentLap = 0;
     private float currentLapTime = 0f;
     private float bestLapTime = Mathf.Infinity;
+    private bool raceStarted = false; // Signal de départ
 
     // Données d'apprentissage
     private List<WaypointData> learnedPath = new List<WaypointData>();
@@ -84,6 +86,15 @@ public class GhostController : MonoBehaviour
     void FixedUpdate()
     {
         if (waypointManager == null) return;
+
+        // Attendre le signal de départ si activé
+        if (waitForRaceStart && !raceStarted)
+        {
+            // Le ghost reste immobile jusqu'au départ
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            return;
+        }
 
         if (isLearning)
         {
@@ -277,6 +288,7 @@ public class GhostController : MonoBehaviour
         {
             rb.isKinematic = false;
             rb.useGravity = false;
+            rb.detectCollisions = false;
         }
 
         Debug.Log("✓ Collisions du kart fantôme désactivées");
@@ -287,6 +299,26 @@ public class GhostController : MonoBehaviour
     public float GetBestLapTime() => bestLapTime;
     public int GetCurrentLap() => currentLap;
     public bool IsStillLearning() => isLearning;
+
+    /// <summary>
+    /// Démarre la course du ghost (appelé par GameManager)
+    /// </summary>
+    public void StartRace()
+    {
+        raceStarted = true;
+        Debug.Log("🏁 Ghost : Course démarrée !");
+    }
+
+    /// <summary>
+    /// Arrête le ghost (appelé par GameManager au restart)
+    /// </summary>
+    public void StopRace()
+    {
+        raceStarted = false;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        Debug.Log("⏸️ Ghost : Course arrêtée !");
+    }
 
     public void SetOpacity(float newOpacity)
     {
@@ -308,6 +340,7 @@ public class GhostController : MonoBehaviour
         lapTimes.Clear();
         isLearning = true;
         explorationRate = 0.3f;
+        raceStarted = false;
         InitializeLearning();
 
         Debug.Log("IA réinitialisée. Nouvel apprentissage commencé.");

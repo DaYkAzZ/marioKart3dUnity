@@ -1,33 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float accelerationSpeed = 8f;
-    public float maxSpeed = 14f;
+    [SerializeField] private float accelerationSpeed = 5f;
+    public float maxSpeed = 10f;
     public float turnSpeed = 60f;
     [SerializeField] private float drag = 2f;
     [SerializeField] private float brakingForce = 5f;
 
+    // --------------------------------
     [Header("Physics Settings")]
     [SerializeField] private float groundCheckDistance = 0.5f;
     [SerializeField] private LayerMask groundLayer;
-
     private Rigidbody rb;
     private float currentSpeed;
     private bool isGrounded;
+    // --------------------------------
+
+    [Header("Boost Settings")]
+    public bool isBoosted = false;
+    // --------------------------------
+    [SerializeField] private MeshRenderer[] meshRenderer;
+    private Color originalColor;
+    private Boostpad boostpad;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        boostpad = GetComponent<Boostpad>();
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
+        if (meshRenderer.Length > 0)
+        {
+            originalColor = meshRenderer[0].material.color;
+        }
     }
 
     void Update()
     {
         CheckGrounded();
+        if (isBoosted)
+        {
+            EnableBoostApparence(true);
+            isBoosted = false;
+        }
     }
 
     void FixedUpdate()
@@ -85,5 +101,21 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, Vector3.down * groundCheckDistance);
+    }
+    void EnableBoostApparence(bool boost)
+    {
+        for (int i = 0; i < meshRenderer.Length; i++)
+        {
+            meshRenderer[i].material.color = Color.yellow;
+        }
+
+        Invoke(nameof(DisableBoostApparence), 1.5f);
+    }
+    void DisableBoostApparence()
+    {
+        for (int i = 0; i < meshRenderer.Length; i++)
+        {
+            meshRenderer[i].material.color = originalColor;
+        }
     }
 }

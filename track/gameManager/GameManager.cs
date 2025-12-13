@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     // ------------------------------------
     [Header("UI - Compte à rebours")]
     [SerializeField] private TextMeshProUGUI countdownText;
-    [SerializeField] private bool useCountdown = true;
 
     // ------------------------------------
     [Header("Ghost Reference")]
@@ -29,7 +28,6 @@ public class GameManager : MonoBehaviour
     // ------------------------------------
     [Header("Settings")]
     [SerializeField] private int totalLaps = 3;
-    [SerializeField] private bool disablePlayerControlsDuringCountdown = true;
     [SerializeField] private bool showDebugLogs = true;
 
     private bool raceStarted = false;

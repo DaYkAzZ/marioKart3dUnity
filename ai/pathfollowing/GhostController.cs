@@ -15,10 +15,6 @@ public class WaypointData
         lateralOffset = offset;
     }
 }
-
-/// <summary>
-/// Contrôleur complet du kart fantôme : IA avec apprentissage + apparence transparente + sans collisions
-/// </summary>
 public class GhostController : MonoBehaviour
 {
     [Header("References")]
@@ -32,9 +28,9 @@ public class GhostController : MonoBehaviour
     [SerializeField] private bool waitForRaceStart = true; // Attendre le signal de départ
 
     [Header("Movement Settings")]
-    [SerializeField] private float baseSpeed = 15f;
-    [SerializeField] private float maxSpeed = 20f;
-    [SerializeField] private float minSpeed = 10f;
+    [SerializeField] private float baseSpeed = 10f;
+    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float minSpeed = 5f;
     [SerializeField] private float turnSpeed = 6f;
     [SerializeField] private float waypointLookAhead = 6f;
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -214,7 +215,7 @@ public class GameManager : MonoBehaviour
             if (bestLapTime < Mathf.Infinity)
                 bestLapText.text = "Best: " + FormatTime(bestLapTime);
             else
-                bestLapText.text = "Best: --:--:---";
+                bestLapText.text = "Best: --:--:--";
         }
     }
 
@@ -393,5 +394,9 @@ public class GameManager : MonoBehaviour
             respawnText.gameObject.SetActive(false);
 
         respawnInProgress = false;
+    }
+    public void QuitToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

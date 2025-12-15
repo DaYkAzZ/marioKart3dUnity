@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
     {
         if (checkpoints == null || checkpoints.Length == 0)
         {
-            Debug.LogError("❌ ERREUR : Aucun checkpoint assigné dans le GameManager !");
             return;
         }
 
@@ -119,7 +118,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Ligne de départ (trigger sur le GameObject avec le GameManager)
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -148,28 +146,17 @@ public class GameManager : MonoBehaviour
         if (playerMovement != null)
             playerMovement.enabled = true;
 
-        // DÉMARRER LE GHOST en même temps que le joueur
         if (ghostController != null)
         {
             ghostController.StartRace();
-            if (showDebugLogs)
-                Debug.Log("✅ Ghost démarré en même temps que le joueur !");
         }
-
-        if (showDebugLogs)
-            Debug.Log("✅ Course démarrée !");
     }
 
     void CompleteLap()
     {
-        if (showDebugLogs)
-            Debug.Log($"🏁 Tour {currentLap} terminé en {FormatTime(currentLapTime)}");
-
         if (currentLapTime < bestLapTime)
         {
             bestLapTime = currentLapTime;
-            if (showDebugLogs)
-                Debug.Log($"⭐ Nouveau meilleur tour : {FormatTime(bestLapTime)}");
         }
 
         currentLap++;
@@ -254,8 +241,6 @@ public class GameManager : MonoBehaviour
         }
         UpdateTimerUI();
 
-        if (showDebugLogs)
-            Debug.Log("🔄 Course réinitialisée");
     }
 
 
@@ -265,6 +250,10 @@ public class GameManager : MonoBehaviour
     public void AddCoin()
     {
         coinCount++;
+        if (coinCount >= 5)
+        {
+
+        }
         UpdateCoinGUI();
     }
 
@@ -281,7 +270,6 @@ public class GameManager : MonoBehaviour
     {
         if (index < 0 || index >= checkpoints.Length)
         {
-            Debug.LogWarning($"⚠️ Index checkpoint invalide : {index}");
             return Vector3.zero;
         }
         return checkpoints[index].position;
@@ -291,7 +279,6 @@ public class GameManager : MonoBehaviour
     {
         if (index < 0 || index >= checkpoints.Length)
         {
-            Debug.LogWarning($"⚠️ Index checkpoint invalide : {index}");
             return Quaternion.identity;
         }
         return checkpoints[index].rotation;
@@ -301,7 +288,6 @@ public class GameManager : MonoBehaviour
     {
         if (index < 0 || index >= checkpoints.Length)
         {
-            Debug.LogWarning($"⚠️ Index checkpoint invalide : {index}");
             return null;
         }
         return checkpoints[index];

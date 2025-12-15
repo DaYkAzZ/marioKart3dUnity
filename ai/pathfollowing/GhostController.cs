@@ -290,24 +290,15 @@ public class GhostController : MonoBehaviour
         Debug.Log("✓ Collisions du kart fantôme désactivées");
     }
 
-    // ========== MÉTHODES PUBLIQUES ==========
-
     public float GetBestLapTime() => bestLapTime;
     public int GetCurrentLap() => currentLap;
     public bool IsStillLearning() => isLearning;
 
-    /// <summary>
-    /// Démarre la course du ghost (appelé par GameManager)
-    /// </summary>
     public void StartRace()
     {
         raceStarted = true;
         Debug.Log("🏁 Ghost : Course démarrée !");
     }
-
-    /// <summary>
-    /// Arrête le ghost (appelé par GameManager au restart)
-    /// </summary>
     public void StopRace()
     {
         raceStarted = false;

@@ -51,7 +51,9 @@ public class GameManager : MonoBehaviour
 
     private bool respawnInProgress = false;
 
-
+    // ------------------------------------
+    [Header("Goals")]
+    private bool success = false;
     void Awake()
     {
         if (Instance == null)
@@ -183,12 +185,18 @@ public class GameManager : MonoBehaviour
     void FinishRace()
     {
         raceActive = false;
-
-        if (showDebugLogs)
+        if (totalLaps == 3)
         {
-            Debug.Log("🏆 Course terminée !");
-            Debug.Log($"⏱️ Temps total : {FormatTime(totalTime)}");
-            Debug.Log($"⭐ Meilleur tour : {FormatTime(bestLapTime)}");
+            Time.timeScale = 0f;
+            if (bestLapTime >= ghostController.GetBestLapTime())
+            {
+                success = true;
+                SceneManager.LoadScene("SuccessMenu");
+            }
+            else
+            {
+                SceneManager.LoadScene("LoosingMenu");
+            }
         }
     }
 
@@ -199,7 +207,7 @@ public class GameManager : MonoBehaviour
             if (raceActive)
                 timerText.text = "Time: " + FormatTime(totalTime);
             else
-                timerText.text = "Time: --:--:---";
+                timerText.text = "Time: --:--:--";
         }
 
         if (lapCountText != null)
@@ -248,6 +256,7 @@ public class GameManager : MonoBehaviour
         if (showDebugLogs)
             Debug.Log("🔄 Course réinitialisée");
     }
+
 
     // ------------------------------------
     // MÉTHODES POUR LES COINS

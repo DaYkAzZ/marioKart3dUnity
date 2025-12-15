@@ -2,20 +2,21 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class PlayerItemManager : MonoBehaviour
 {
     [Header("Speed Boost Settings")]
     [SerializeField] private float boostMultiplier = 2f;
-    [SerializeField] private float boostDuration = 3f;
+    [SerializeField] private float boostDuration = 1f;
 
     [Header("Slow Down Settings")]
     [SerializeField] private float slowMultiplier = 0.5f;
     [SerializeField] private float slowDuration = 2f;
 
     [Header("Rocket Boost Settings")]
-    [SerializeField] private float rocketMultiplier = 3f; // x3 au lieu de x2
-    [SerializeField] private float rocketDuration = 5f;   // Plus long
+    [SerializeField] private float rocketMultiplier = 1.5f; // x3 au lieu de x2
+    [SerializeField] private float rocketDuration = 2f;   // Plus long
     [SerializeField] private ParticleSystem rocketParticles; // Effet visuel
     [SerializeField] private TrailRenderer rocketTrail;      // Traînée
 
@@ -24,6 +25,7 @@ public class PlayerItemManager : MonoBehaviour
     [SerializeField] private Sprite speedSprite;
     [SerializeField] private Sprite slowSprite;
     [SerializeField] private Sprite rocketSprite;
+    [SerializeField] private TextMeshProUGUI activateItemText;
 
     [Header("UI - Roulette")]
     [SerializeField] private UIItemDisplay itemDisplay;
@@ -69,26 +71,26 @@ public class PlayerItemManager : MonoBehaviour
 
         ReceiveItem(itemType);
 
-        Debug.Log($"✅ Item {itemType} stocké ! Appuyez sur ESPACE pour l'utiliser.");
+        if (activateItemText != null)
+        {
+            activateItemText.text = "Press [Space] to use item";
+            activateItemText.gameObject.SetActive(true);
+
+            yield return new WaitForSeconds(2f);
+
+            activateItemText.gameObject.SetActive(false);
+        }
     }
 
-    // ------------------------------------
-    //         ITEM REÇU DE LA BOX
-    // ------------------------------------
     public void ReceiveItem(ItemType item)
     {
         currentItem = item;
         UpdateUI();
     }
 
-    // ------------------------------------
-    //         UTILISATION DE L'ITEM
-    // ------------------------------------
     private void UseStoredItem()
     {
         if (currentItem == null) return;
-
-        Debug.Log($"🎯 Utilisation de l'item : {currentItem}");
 
         switch (currentItem)
         {
@@ -150,8 +152,6 @@ public class PlayerItemManager : MonoBehaviour
             rocketTrail.emitting = true;
         }
 
-        Debug.Log($"🚀 ROCKET BOOST ! Vitesse: {originalSpeed} → {playerMovement.maxSpeed} (x{rocketMultiplier})");
-
         yield return new WaitForSeconds(rocketDuration);
 
         playerMovement.maxSpeed = originalSpeed;
@@ -166,8 +166,6 @@ public class PlayerItemManager : MonoBehaviour
         {
             rocketTrail.emitting = false;
         }
-
-        Debug.Log("🚀 Rocket Boost terminé");
     }
     void UpdateUI()
     {

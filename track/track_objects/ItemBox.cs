@@ -21,7 +21,6 @@ public class ItemBox : MonoBehaviour
         PlayerItemManager itemManager = other.GetComponent<PlayerItemManager>();
         if (itemManager == null)
         {
-            Debug.LogError("❌ PlayerItemManager manquant sur le joueur");
             return;
         }
 

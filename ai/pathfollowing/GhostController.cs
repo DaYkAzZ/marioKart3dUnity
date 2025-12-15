@@ -28,10 +28,10 @@ public class GhostController : MonoBehaviour
     [SerializeField] private bool waitForRaceStart = true; // Attendre le signal de départ
 
     [Header("Movement Settings")]
-    [SerializeField] private float baseSpeed = 10f;
-    [SerializeField] private float maxSpeed = 10f;
-    [SerializeField] private float minSpeed = 5f;
-    [SerializeField] private float turnSpeed = 6f;
+    [SerializeField] private float baseSpeed = 13f;
+    [SerializeField] private float maxSpeed = 13f;
+    [SerializeField] private float minSpeed = 8f;
+    [SerializeField] private float turnSpeed = 10f;
     [SerializeField] private float waypointLookAhead = 6f;
 
     [Header("Exploration Settings")]

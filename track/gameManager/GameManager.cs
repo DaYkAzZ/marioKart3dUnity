@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
         if (timerText != null)
         {
             if (raceActive)
-                timerText.text = "Time: " + FormatTime(totalTime);
+                timerText.text = FormatTime(totalTime);
             else
                 timerText.text = "Time: --:--:--";
         }

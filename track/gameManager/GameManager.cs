@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -362,7 +363,6 @@ public class GameManager : MonoBehaviour
 
         if (respawnInProgress)
         {
-            Debug.Log("GameManager: Respawn déjà en cours.");
             return;
         }
 
@@ -373,7 +373,9 @@ public class GameManager : MonoBehaviour
         respawnInProgress = true;
 
         if (respawnText != null)
+        {
             respawnText.gameObject.SetActive(true);
+        }
 
         for (int i = seconds; i > 0; i--)
         {
@@ -400,7 +402,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         if (respawnText != null)
+        {
             respawnText.gameObject.SetActive(false);
+        }
 
         respawnInProgress = false;
     }

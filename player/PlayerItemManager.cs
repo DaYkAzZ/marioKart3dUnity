@@ -53,10 +53,6 @@ public class PlayerItemManager : MonoBehaviour
             UseStoredItem();
         }
     }
-
-    // ------------------------------------
-    //    ROULETTE + STOCKAGE DE L'ITEM
-    // ------------------------------------
     public void ShowItemRouletteAndActivate(ItemType itemType)
     {
         if (itemDisplay != null)
@@ -113,9 +109,6 @@ public class PlayerItemManager : MonoBehaviour
         UpdateUI();
     }
 
-    // ------------------------------------
-    //         EFFETS DES ITEMS
-    // ------------------------------------
     IEnumerator SpeedBoostEffect()
     {
         if (playerMovement == null) yield break;
@@ -123,12 +116,9 @@ public class PlayerItemManager : MonoBehaviour
         float originalSpeed = playerMovement.maxSpeed;
         playerMovement.maxSpeed *= boostMultiplier;
 
-        Debug.Log($"⚡ Speed Boost ! Vitesse: {originalSpeed} → {playerMovement.maxSpeed}");
-
         yield return new WaitForSeconds(boostDuration);
 
         playerMovement.maxSpeed = originalSpeed;
-        Debug.Log("⚡ Speed Boost terminé");
     }
 
     IEnumerator SlowDownEffect()
@@ -138,12 +128,9 @@ public class PlayerItemManager : MonoBehaviour
         float originalSpeed = playerMovement.maxSpeed;
         playerMovement.maxSpeed *= slowMultiplier;
 
-        Debug.Log($"🐌 Ralentissement ! Vitesse: {originalSpeed} → {playerMovement.maxSpeed}");
-
         yield return new WaitForSeconds(slowDuration);
 
         playerMovement.maxSpeed = originalSpeed;
-        Debug.Log("🐌 Ralentissement terminé");
     }
 
     IEnumerator RocketBoostEffect()
@@ -153,7 +140,6 @@ public class PlayerItemManager : MonoBehaviour
         float originalSpeed = playerMovement.maxSpeed;
         playerMovement.maxSpeed *= rocketMultiplier;
 
-        // Effets visuels
         if (rocketParticles != null)
         {
             rocketParticles.Play();
@@ -183,10 +169,6 @@ public class PlayerItemManager : MonoBehaviour
 
         Debug.Log("🚀 Rocket Boost terminé");
     }
-
-    // ------------------------------------
-    //                UI
-    // ------------------------------------
     void UpdateUI()
     {
         if (itemIconUI == null) return;

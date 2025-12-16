@@ -61,8 +61,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI ghostBestTimeUI;
     public TextMeshProUGUI playerCurrentSpeed;
 
-    private bool success = false;
-
     // ------------------------------------
 
     void Awake()
@@ -121,10 +119,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (playerCurrentSpeed != null)
-        {
-            playerCurrentSpeed.text = Mathf.RoundToInt(playerMovement.GetCurrentSpeed()).ToString() + " km/h";
-        }
+        // if (playerCurrentSpeed != null)
+        // {
+        //     playerCurrentSpeed.text = Mathf.RoundToInt(playerMovement.GetCurrentSpeed()).ToString() + " km/h";
+        // }
 
         if (raceActive)
         {
@@ -194,7 +192,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f;
             if (bestLapTime <= ghostController.GetBestLapTime())
             {
-                success = true;
                 successMenu.SetActive(true);
                 gameInfoUI.SetActive(false);
 
@@ -206,7 +203,6 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                success = false;
                 failureMenu.SetActive(true);
             }
         }

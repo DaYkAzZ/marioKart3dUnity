@@ -44,7 +44,6 @@ public class PlayerMovement : MonoBehaviour
             EnableBoostApparence(true);
             isBoosted = false;
         }
-        Debug.Log(currentSpeed);
     }
 
     void FixedUpdate()
@@ -77,17 +76,42 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed = Mathf.Lerp(currentSpeed, 0, drag * Time.fixedDeltaTime);
         }
 
-        Vector3 moveDirection = transform.forward * currentSpeed;
-        rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
-
+        // Rotation
         if (Mathf.Abs(currentSpeed) > 0.1f)
         {
             float turnAmount = moveHorizontal * turnSpeed * Time.fixedDeltaTime;
             if (currentSpeed < 0)
                 turnAmount = -turnAmount;
 
+            // speed reduction based on turn intensity
+            float turnIntensity = Mathf.Abs(turnAmount);
+            float speedMultiplier = 1f;
+
+            if (turnIntensity > 0.1f && turnIntensity <= 0.5f)
+            {
+                speedMultiplier = 0.9f;
+            }
+            else if (turnIntensity > 0.5f && turnIntensity <= 1.2f)
+            {
+                speedMultiplier = 0.7f;
+            }
+            else if (turnIntensity > 1.2f)
+            {
+                speedMultiplier = 0.5f;
+            }
+
+            float adjustedSpeed = currentSpeed * speedMultiplier;
+
+            Vector3 moveDirection = transform.forward * adjustedSpeed;
+            rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
+
             Quaternion turnRotation = Quaternion.Euler(0, turnAmount, 0);
             rb.MoveRotation(rb.rotation * turnRotation);
+        }
+        else
+        {
+            Vector3 moveDirection = transform.forward * currentSpeed;
+            rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
         }
     }
     public float GetCurrentSpeed()

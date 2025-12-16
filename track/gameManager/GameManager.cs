@@ -53,8 +53,17 @@ public class GameManager : MonoBehaviour
     private bool respawnInProgress = false;
 
     // ------------------------------------
-    [Header("Goals")]
+    [Header("Panels")]
+    public GameObject successMenu;
+    public GameObject failureMenu;
+    public GameObject gameInfoUI;
+    public TextMeshProUGUI playreBestTimeUI;
+    public TextMeshProUGUI ghostBestTimeUI;
+
     private bool success = false;
+
+    // ------------------------------------
+
     void Awake()
     {
         if (Instance == null)
@@ -74,12 +83,13 @@ public class GameManager : MonoBehaviour
             countdownText.text = "Franchissez la ligne de départ pour commencer";
             countdownText.color = Color.white;
         }
-
-        // Trouver le ghost automatiquement si non assigné
         if (ghostController == null)
         {
             ghostController = FindObjectOfType<GhostController>();
         }
+
+        successMenu.SetActive(false);
+        failureMenu.SetActive(false);
     }
 
     void ValidateCheckpoints()
@@ -176,14 +186,22 @@ public class GameManager : MonoBehaviour
         if (totalLaps == 3)
         {
             Time.timeScale = 0f;
-            if (bestLapTime >= ghostController.GetBestLapTime())
+            if (bestLapTime <= ghostController.GetBestLapTime())
             {
                 success = true;
-                SceneManager.LoadScene("SuccessMenu");
+                successMenu.SetActive(true);
+                gameInfoUI.SetActive(false);
+
+                if (playreBestTimeUI != null && ghostBestTimeUI != null)
+                {
+                    ghostBestTimeUI.text = "Ghost Best Time: " + FormatTime(ghostController.GetBestLapTime());
+                    playreBestTimeUI.text = "Player Best Time: " + FormatTime(bestLapTime);
+                }
             }
             else
             {
-                SceneManager.LoadScene("LoosingMenu");
+                success = false;
+                failureMenu.SetActive(true);
             }
         }
     }

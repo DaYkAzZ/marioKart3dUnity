@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
             EnableBoostApparence(true);
             isBoosted = false;
         }
+        Debug.Log(currentSpeed);
     }
 
     void FixedUpdate()

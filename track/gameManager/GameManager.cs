@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameInfoUI;
     public TextMeshProUGUI playreBestTimeUI;
     public TextMeshProUGUI ghostBestTimeUI;
+    public TextMeshProUGUI playerCurrentSpeed;
 
     private bool success = false;
 
@@ -75,7 +76,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ValidateCheckpoints();
-        UpdateTimerUI();
+        UpdateUI();
         UpdateCoinGUI();
 
         if (countdownText != null)
@@ -120,11 +121,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (playerCurrentSpeed != null)
+        {
+            playerCurrentSpeed.text = Mathf.RoundToInt(playerMovement.GetCurrentSpeed()).ToString() + " km/h";
+        }
+
         if (raceActive)
         {
             totalTime += Time.deltaTime;
             currentLapTime += Time.deltaTime;
-            UpdateTimerUI();
+            UpdateUI();
         }
     }
 
@@ -176,7 +182,7 @@ public class GameManager : MonoBehaviour
         else
         {
             currentLapTime = 0f;
-            UpdateTimerUI();
+            UpdateUI();
         }
     }
 
@@ -206,7 +212,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdateTimerUI()
+    void UpdateUI()
     {
         if (timerText != null)
         {
@@ -257,7 +263,7 @@ public class GameManager : MonoBehaviour
         {
             ghostController.StopRace();
         }
-        UpdateTimerUI();
+        UpdateUI();
 
     }
 

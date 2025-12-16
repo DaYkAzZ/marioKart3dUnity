@@ -13,6 +13,7 @@ public class UIItemDisplay : MonoBehaviour
     [SerializeField] private Sprite speedIcon;
     [SerializeField] private Sprite slowIcon;
     [SerializeField] private Sprite rocketIcon;
+    [SerializeField] private Sprite coinIcon;
 
     [Header("Animation Settings")]
     [SerializeField] private float rouletteDuration = 1.3f;
@@ -85,7 +86,6 @@ public class UIItemDisplay : MonoBehaviour
             elapsed += rouletteSpeed;
         }
 
-        // Affiche l'icône finale
         Sprite finalSprite = GetIcon(finalItem);
         if (itemIcon != null && finalSprite != null)
         {
@@ -94,7 +94,6 @@ public class UIItemDisplay : MonoBehaviour
                 Debug.Log($"✅ Icône finale : {finalSprite.name}");
         }
 
-        // Affiche le texte avec fade-in
         if (itemNameText != null)
         {
             itemNameText.text = GetItemName(finalItem);
@@ -118,11 +117,12 @@ public class UIItemDisplay : MonoBehaviour
 
     Sprite GetRandomIcon()
     {
-        int r = Random.Range(0, 3);
+        int r = Random.Range(0, 4);
         switch (r)
         {
             case 0: return speedIcon;
             case 1: return slowIcon;
+            case 2: return coinIcon;
             default: return rocketIcon;
         }
     }
@@ -134,6 +134,7 @@ public class UIItemDisplay : MonoBehaviour
             ItemType.SpeedBoost => speedIcon,
             ItemType.SlowDown => slowIcon,
             ItemType.Rocket => rocketIcon,
+            ItemType.CoinBoost => coinIcon,
             _ => null
         };
     }
@@ -145,6 +146,7 @@ public class UIItemDisplay : MonoBehaviour
             ItemType.SpeedBoost => "Speed",
             ItemType.SlowDown => "Slow",
             ItemType.Rocket => "Rocket",
+            ItemType.CoinBoost => "Coin+2",
             _ => "Unknown"
         };
     }

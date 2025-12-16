@@ -27,9 +27,7 @@ public class RespawnManager : MonoBehaviour
         else
             checkpoints = null;
 
-        // essayer de trouver un script de movement courant (nom commun)
         playerMovementScript = GetComponent<MonoBehaviour>();
-        // si tu as un script spécifique (ex: PlayerMovement), assigne-le manuellement dans l'inspector au besoin.
 
         if (showDebug)
         {

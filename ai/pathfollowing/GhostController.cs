@@ -28,9 +28,9 @@ public class GhostController : MonoBehaviour
     [SerializeField] private bool waitForRaceStart = true; // Attendre le signal de départ
 
     [Header("Movement Settings")]
-    [SerializeField] private float baseSpeed = 13f;
-    [SerializeField] private float maxSpeed = 13f;
-    [SerializeField] private float minSpeed = 8f;
+    [SerializeField] private float baseSpeed = 16f;
+    [SerializeField] private float maxSpeed = 20f;
+    [SerializeField] private float minSpeed = 14f;
     [SerializeField] private float turnSpeed = 10f;
     [SerializeField] private float waypointLookAhead = 6f;
 
@@ -67,7 +67,7 @@ public class GhostController : MonoBehaviour
 
         // Initialisation de l'IA
         InitializeLearning();
-        Debug.Log("L'IA démarre un nouvel apprentissage.");
+        Debug.Log("AI START LEARNING");
     }
 
     void InitializeLearning()
@@ -192,13 +192,11 @@ public class GhostController : MonoBehaviour
         currentWP = 0;
         currentLap++;
 
-        Debug.Log($"Ghost - Tour {currentLap} terminé en {currentLapTime:F2}s");
-
         if (currentLapTime < bestLapTime)
         {
             bestLapTime = currentLapTime;
             UpdateLearnedPath();
-            Debug.Log($"✓ Nouveau meilleur temps ! {bestLapTime:F2}s");
+            Debug.Log($"✓ NEW BEST TIME ! {bestLapTime:F2}s");
         }
 
         lapTimes.Add(currentLapTime);
@@ -213,10 +211,10 @@ public class GhostController : MonoBehaviour
         {
             isLearning = false;
             explorationRate = 0f;
-            Debug.Log($"=== Apprentissage terminé ! ===");
-            Debug.Log($"Meilleur temps : {bestLapTime:F2}s");
-            Debug.Log($"Tours total : {currentLap}");
-            Debug.Log("Le Ghost utilise maintenant son meilleur tracé.");
+            Debug.Log($"=== LEARNING FINISHED ! ===");
+            Debug.Log($"BEST TIME : {bestLapTime:F2}s");
+            Debug.Log($"TOTAL LAP : {currentLap}");
+            Debug.Log("GHOST IS NOW USING HIS BEST LAP.");
         }
     }
 

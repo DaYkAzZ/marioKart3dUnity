@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     // ------------------------------------
     [Header("Settings")]
     [SerializeField] private int totalLaps = 3;
-    [SerializeField] private bool showDebugLogs = true;
 
     private bool raceStarted = false;
     private bool raceActive = false;
@@ -60,6 +59,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playreBestTimeUI;
     public TextMeshProUGUI ghostBestTimeUI;
     public TextMeshProUGUI playerCurrentSpeed;
+    public TextMeshProUGUI coinInfoDisplay;
 
     // ------------------------------------
 
@@ -97,33 +97,10 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-
-        for (int i = 0; i < checkpoints.Length; i++)
-        {
-            if (checkpoints[i] == null)
-            {
-                Debug.LogError($"❌ ERREUR : Le checkpoint {i} n'est pas assigné !");
-            }
-        }
-
-        if (showDebugLogs)
-        {
-            Debug.Log($"✓ GameManager initialisé avec {checkpoints.Length} checkpoints");
-
-            for (int i = 0; i < checkpoints.Length; i++)
-            {
-                Debug.Log($"  → Checkpoint {i}: {checkpoints[i].name}");
-            }
-        }
     }
 
     void Update()
     {
-        // if (playerCurrentSpeed != null)
-        // {
-        //     playerCurrentSpeed.text = Mathf.RoundToInt(playerMovement.GetCurrentSpeed()).ToString() + " km/h";
-        // }
-
         if (raceActive)
         {
             totalTime += Time.deltaTime;
@@ -233,6 +210,10 @@ public class GameManager : MonoBehaviour
             else
                 bestLapText.text = "Best: --:--:--";
         }
+        if (playerCurrentSpeed != null)
+        {
+            playerCurrentSpeed.text = Mathf.RoundToInt(playerMovement.GetCurrentSpeed()).ToString() + " km/h";
+        }
     }
 
     string FormatTime(float time)
@@ -270,22 +251,26 @@ public class GameManager : MonoBehaviour
     public void AddCoin()
     {
         coinCount++;
+        UpdateCoinGUI();
         if (coinCount >= 5)
         {
-
+            coinCount = 0;
+            if (playerMovement != null)
+            {
+                playerMovement.SetSpeed(playerMovement.GetCurrentSpeed() + 10f); ;
+                playerMovement.EnableBoostApparence(true);
+            }
+            Debug.Log("Coin Bonus Enabled");
         }
-        UpdateCoinGUI();
     }
 
     void UpdateCoinGUI()
     {
+        if (coinCount == 0)
+            coinInfoDisplay.text = "Catch Coins to get Speed Boost!";
         if (coinText != null)
-            coinText.text = "Coins: " + coinCount.ToString();
+            coinText.text = "Coins: " + coinCount.ToString() + "/5";
     }
-
-    // ------------------------------------
-    // MÉTHODES POUR LES CHECKPOINTS
-    // ------------------------------------
     public Vector3 GetCheckpointPosition(int index)
     {
         if (index < 0 || index >= checkpoints.Length)

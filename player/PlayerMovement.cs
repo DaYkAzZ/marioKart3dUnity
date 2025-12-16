@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, Vector3.down * groundCheckDistance);
     }
-    void EnableBoostApparence(bool boost)
+    public void EnableBoostApparence(bool boost)
     {
         for (int i = 0; i < meshRenderer.Length; i++)
         {

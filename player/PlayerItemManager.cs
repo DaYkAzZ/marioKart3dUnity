@@ -2,21 +2,19 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
-
 public class PlayerItemManager : MonoBehaviour
 {
     [Header("Speed Boost Settings")]
-    [SerializeField] private float boostMultiplier = 2f;
+    [SerializeField] private float boostMultiplier = 1.1f;
     [SerializeField] private float boostDuration = 1f;
 
     [Header("Slow Down Settings")]
-    [SerializeField] private float slowMultiplier = 0.5f;
+    [SerializeField] private float slowMultiplier = 0.8f;
     [SerializeField] private float slowDuration = 2f;
 
     [Header("Rocket Boost Settings")]
-    [SerializeField] private float rocketMultiplier = 1.5f; // x3 au lieu de x2
-    [SerializeField] private float rocketDuration = 2f;   // Plus long
+    [SerializeField] private float rocketMultiplier = 1.2f; // x3 au lieu de x2
+    [SerializeField] private float rocketDuration = 1f;   // Plus long
     [SerializeField] private ParticleSystem rocketParticles; // Effet visuel
     [SerializeField] private TrailRenderer rocketTrail;      // Traînée
 
@@ -25,6 +23,7 @@ public class PlayerItemManager : MonoBehaviour
     [SerializeField] private Sprite speedSprite;
     [SerializeField] private Sprite slowSprite;
     [SerializeField] private Sprite rocketSprite;
+    [SerializeField] private Sprite coinSprite;
     [SerializeField] private TextMeshProUGUI activateItemText;
 
     [Header("UI - Roulette")]
@@ -61,7 +60,6 @@ public class PlayerItemManager : MonoBehaviour
         {
             itemDisplay.ShowItemRandom(itemType);
         }
-
         StartCoroutine(StoreItemAfterDelay(itemType, 2.8f));
     }
 
@@ -104,6 +102,9 @@ public class PlayerItemManager : MonoBehaviour
 
             case ItemType.Rocket:
                 StartCoroutine(RocketBoostEffect());
+                break;
+            case ItemType.CoinBoost:
+                StartCoroutine(BoostCoinCount());
                 break;
         }
 
@@ -167,6 +168,14 @@ public class PlayerItemManager : MonoBehaviour
             rocketTrail.emitting = false;
         }
     }
+    IEnumerator BoostCoinCount()
+    {
+        // add 2 coins instantly
+        GameManager.Instance.AddCoin();
+        GameManager.Instance.AddCoin();
+        yield break;
+    }
+    // --------------------------------
     void UpdateUI()
     {
         if (itemIconUI == null) return;
@@ -190,9 +199,11 @@ public class PlayerItemManager : MonoBehaviour
             case ItemType.Rocket:
                 itemIconUI.sprite = rocketSprite;
                 break;
+            case ItemType.CoinBoost:
+                itemIconUI.sprite = coinSprite;
+                break;
         }
     }
-
     public bool HasItem() => currentItem != null;
     public ItemType? GetCurrentItem() => currentItem;
 }

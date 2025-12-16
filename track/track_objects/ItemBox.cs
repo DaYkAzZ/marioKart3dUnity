@@ -5,9 +5,10 @@ public class ItemBox : MonoBehaviour
     [SerializeField] private UIItemDisplay uiDisplay;
 
     [Header("Probabilities (%)")]
-    [Range(0, 100)] public float speedBoostChance = 40f;
-    [Range(0, 100)] public float slowDownChance = 40f;
+    [Range(0, 100)] public float speedBoostChance = 30f;
+    [Range(0, 100)] public float slowDownChance = 20f;
     [Range(0, 100)] public float rocketChance = 20f;
+    [Range(0, 100)] public float coinBoostChance = 30f;
 
     private bool alreadyTriggered = false;
 
@@ -41,6 +42,9 @@ public class ItemBox : MonoBehaviour
         cumulative += slowDownChance;
         if (rand <= cumulative) return ItemType.SlowDown;
 
-        return ItemType.Rocket;
+        cumulative += rocketChance;
+        if (rand <= cumulative) return ItemType.Rocket;
+
+        return ItemType.CoinBoost;
     }
 }

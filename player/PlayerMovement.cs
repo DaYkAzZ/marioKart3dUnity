@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isBoosted = false;
     // --------------------------------
     [SerializeField] private MeshRenderer[] meshRenderer;
-    private Color originalColor;
+    public Color originalColor;
     private Boostpad boostpad;
 
     void Start()

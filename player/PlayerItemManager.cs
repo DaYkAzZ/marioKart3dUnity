@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 public class PlayerItemManager : MonoBehaviour
 {
     [Header("Speed Boost Settings")]
@@ -14,9 +15,7 @@ public class PlayerItemManager : MonoBehaviour
 
     [Header("Rocket Boost Settings")]
     [SerializeField] private float rocketMultiplier = 1.2f; // x3 au lieu de x2
-    [SerializeField] private float rocketDuration = 1f;   // Plus long
-    [SerializeField] private ParticleSystem rocketParticles; // Effet visuel
-    [SerializeField] private TrailRenderer rocketTrail;      // Traînée
+    [SerializeField] private float rocketDuration = 1f;
 
     [Header("UI - Item stocké")]
     [SerializeField] private Image itemIconUI;
@@ -31,9 +30,7 @@ public class PlayerItemManager : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private Rigidbody rb;
-
     private ItemType? currentItem = null;
-
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -41,10 +38,6 @@ public class PlayerItemManager : MonoBehaviour
 
         if (itemIconUI != null)
             itemIconUI.enabled = false;
-
-        // Désactiver les effets au départ
-        if (rocketParticles != null) rocketParticles.Stop();
-        if (rocketTrail != null) rocketTrail.emitting = false;
     }
 
     void Update()
@@ -120,7 +113,6 @@ public class PlayerItemManager : MonoBehaviour
         playerMovement.maxSpeed *= boostMultiplier;
 
         yield return new WaitForSeconds(boostDuration);
-
         playerMovement.maxSpeed = originalSpeed;
     }
 
@@ -143,30 +135,9 @@ public class PlayerItemManager : MonoBehaviour
         float originalSpeed = playerMovement.maxSpeed;
         playerMovement.maxSpeed *= rocketMultiplier;
 
-        if (rocketParticles != null)
-        {
-            rocketParticles.Play();
-        }
-
-        if (rocketTrail != null)
-        {
-            rocketTrail.emitting = true;
-        }
-
         yield return new WaitForSeconds(rocketDuration);
 
         playerMovement.maxSpeed = originalSpeed;
-
-        // Arrêter les effets
-        if (rocketParticles != null)
-        {
-            rocketParticles.Stop();
-        }
-
-        if (rocketTrail != null)
-        {
-            rocketTrail.emitting = false;
-        }
     }
     IEnumerator BoostCoinCount()
     {

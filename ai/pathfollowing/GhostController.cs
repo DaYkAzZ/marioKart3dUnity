@@ -61,11 +61,8 @@ public class GhostController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        // Configuration du fantôme (apparence + physique)
         SetupGhostAppearance();
         SetupGhostPhysics();
-
-        // Initialisation de l'IA
         InitializeLearning();
         Debug.Log("AI START LEARNING");
     }
@@ -83,10 +80,8 @@ public class GhostController : MonoBehaviour
     {
         if (waypointManager == null) return;
 
-        // Attendre le signal de départ si activé
         if (waitForRaceStart && !raceStarted)
         {
-            // Le ghost reste immobile jusqu'au départ
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             return;

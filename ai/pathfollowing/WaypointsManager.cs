@@ -31,19 +31,13 @@ public class WaypointsManager : MonoBehaviour
             Transform current = transform.GetChild(i);
             Transform next = transform.GetChild((i + 1) % count);
 
-            // Dessine une sphère au waypoint
             Gizmos.DrawSphere(current.position, 0.3f);
 
-            // Dessine la ligne vers le prochain
             Gizmos.DrawLine(current.position, next.position);
-
-            // Dessine la direction du waypoint (une flèche rouge)
             Gizmos.color = directionColor;
             Vector3 arrowStart = current.position;
             Vector3 arrowEnd = current.position + current.forward * arrowLength;
             Gizmos.DrawLine(arrowStart, arrowEnd);
-
-            // Petite flèche en V
             Vector3 rightWing = Quaternion.AngleAxis(20, Vector3.up) * -current.forward;
             Vector3 leftWing = Quaternion.AngleAxis(-20, Vector3.up) * -current.forward;
 
